@@ -45,4 +45,5 @@ ext {
   rxandroidVersion = '1.2.1'
   sqlbriteVersion = '0.7.0'
   daggerVersion = '2.7'
+  retrofitVersion = '2.2.0'
 }
