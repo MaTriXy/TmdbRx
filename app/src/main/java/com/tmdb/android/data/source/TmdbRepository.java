@@ -74,9 +74,10 @@ public class TmdbRepository implements MoviesDataSource {
     private Observable<List<Movie>> getAndSaveRemotePopularMovies() {
         return remoteDataSource
                 .getPopularMovies()
-                .flatMap(movies -> Observable.from(movies).doOnNext(movie -> {
-                    localDataSource.saveMovie(movie);
-                    cachedMovies.put(movie.getMovieId(), movie);
+                .flatMap(movies -> Observable.from(movies)
+                    .doOnNext(movie -> {
+                        localDataSource.saveMovie(movie);
+                        cachedMovies.put(movie.getMovieId(), movie);
                 }).toList())
                 .doOnCompleted(() -> cacheMoviesIsDirty = false);
     }
@@ -142,5 +143,9 @@ public class TmdbRepository implements MoviesDataSource {
         }
 
         cachedTrailers.put(movieId, trailers);
+    }
+
+    public void refreshMovies() {
+        cacheMoviesIsDirty = true;
     }
 }
